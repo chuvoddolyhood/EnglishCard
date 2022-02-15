@@ -1,0 +1,3 @@
+/**
+ * Define style of app
+ */
