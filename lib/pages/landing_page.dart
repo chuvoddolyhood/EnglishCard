@@ -1,3 +1,4 @@
+import 'package:englishcard/pages/home_page.dart';
 import 'package:englishcard/values/app_assets.dart';
 import 'package:englishcard/values/app_colors.dart';
 import 'package:englishcard/values/app_styles.dart';
@@ -57,7 +58,16 @@ class LandingPage extends StatelessWidget {
               child: RawMaterialButton(
                 fillColor: appColors.lightBlue,
                 shape: CircleBorder(),
-                onPressed: () {},
+                onPressed: () {
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => HomePage()));
+
+                  //Xoa context cua landing page
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => HomePage()),
+                      (route) => false);
+                },
                 child: Image.asset(appAssets.rightArrow),
               ),
             ))
