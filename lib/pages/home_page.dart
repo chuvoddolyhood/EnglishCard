@@ -6,6 +6,7 @@ import 'package:englishcard/packages/quote_model.dart';
 import 'package:englishcard/values/app_assets.dart';
 import 'package:englishcard/values/app_colors.dart';
 import 'package:englishcard/values/app_styles.dart';
+import 'package:englishcard/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -73,6 +74,8 @@ class _HomePageState extends State<HomePage> {
 
   String quoteHeading = Quotes().getRandom().content!;
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     _pageController = PageController(
@@ -85,12 +88,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: appColors.secondColor,
       appBar: AppBar(
         backgroundColor: appColors.primaryColor,
         elevation: 0,
         leading: InkWell(
-          onTap: () {},
+          onTap: () {
+            scaffoldKey.currentState?.openDrawer();
+          },
           child: Image.asset(appAssets.menu),
         ),
         title: Text(
@@ -227,6 +233,25 @@ class _HomePageState extends State<HomePage> {
                   }),
             )
           ],
+        ),
+      ),
+      drawer: Drawer(
+        child: Container(
+          color: appColors.lightBlue,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 24, left: 16),
+                child: Text(
+                  'Your mind',
+                  style: appStyles.h3.copyWith(color: appColors.textColor),
+                ),
+              ),
+              appButton(label: 'My favorite', onTap: () {}),
+              appButton(label: 'Control', onTap: () {})
+            ],
+          ),
         ),
       ),
     );
