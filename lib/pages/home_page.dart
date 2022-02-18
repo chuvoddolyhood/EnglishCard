@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:englishcard/models/english_today.dart';
 import 'package:englishcard/packages/quote.dart';
 import 'package:englishcard/packages/quote_model.dart';
+import 'package:englishcard/pages/control_page.dart';
 import 'package:englishcard/values/app_assets.dart';
 import 'package:englishcard/values/app_colors.dart';
 import 'package:englishcard/values/app_styles.dart';
@@ -248,8 +249,13 @@ class _HomePageState extends State<HomePage> {
                   style: appStyles.h3.copyWith(color: appColors.textColor),
                 ),
               ),
-              appButton(label: 'My favorite', onTap: () {}),
-              appButton(label: 'Control', onTap: () {})
+              appButton(label: 'Favorite', onTap: () {}),
+              appButton(
+                  label: 'Control',
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ControlPage()));
+                  })
             ],
           ),
         ),

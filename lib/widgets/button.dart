@@ -13,7 +13,7 @@ class appButton extends StatelessWidget {
     return InkWell(
       //Event
       onTap: () {
-        // print('object');
+        onTap();
       },
 
       //Design
