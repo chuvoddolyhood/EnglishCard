@@ -169,41 +169,48 @@ class _HomePageState extends State<HomePage> {
                         : quoteDefault;
                     return Padding(
                       padding: const EdgeInsets.all(6.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                            color: appColors.primaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: appColors.blackGrey,
-                                  offset: Offset(1, 4),
-                                  blurRadius: 3)
-                            ]),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: Image.asset(appAssets.heart),
-                              alignment: Alignment.centerRight,
-                            ),
-                            RichText(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                    text: firstLetter,
-                                    style: appStyles.h2.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          BoxShadow(
-                                              color: Colors.black38,
-                                              offset: Offset(3, 10),
-                                              blurRadius: 10.0)
-                                        ]),
-                                    children: [
-                                      TextSpan(
-                                        text: leftLetter,
-                                        style: appStyles.h3.copyWith(
+                      child: Material(
+                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                        color: appColors.primaryColor,
+                        elevation: 4,
+                        child: InkWell(
+                          onDoubleTap: () {
+                            setState(() {
+                              words[index].isFavorite =
+                                  !words[index].isFavorite;
+                            });
+                          },
+                          // splashColor: appColors.lightBlue,
+                          splashColor: Colors.transparent,
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                          child: Container(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        words[index].isFavorite =
+                                            !words[index].isFavorite;
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      appAssets.heart,
+                                      color: words[index].isFavorite
+                                          ? Colors.red
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                ),
+                                RichText(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        text: firstLetter,
+                                        style: appStyles.h2.copyWith(
                                             fontWeight: FontWeight.bold,
                                             shadows: [
                                               BoxShadow(
@@ -211,20 +218,33 @@ class _HomePageState extends State<HomePage> {
                                                   offset: Offset(3, 10),
                                                   blurRadius: 10.0)
                                             ]),
-                                      ),
-                                    ])),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: AutoSizeText(
-                                '"$quote"',
-                                style: appStyles.h4.copyWith(
-                                  color: Colors.black38,
-                                  letterSpacing: 1,
+                                        children: [
+                                          TextSpan(
+                                            text: leftLetter,
+                                            style: appStyles.h3.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                shadows: [
+                                                  BoxShadow(
+                                                      color: Colors.black38,
+                                                      offset: Offset(3, 10),
+                                                      blurRadius: 10.0)
+                                                ]),
+                                          ),
+                                        ])),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: AutoSizeText(
+                                    '"$quote"',
+                                    style: appStyles.h4.copyWith(
+                                      color: Colors.black38,
+                                      letterSpacing: 1,
+                                    ),
+                                    maxLines: 8,
+                                  ),
                                 ),
-                                maxLines: 8,
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     );
