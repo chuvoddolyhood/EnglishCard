@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:englishcard/models/english_today.dart';
 import 'package:englishcard/packages/quote.dart';
 import 'package:englishcard/packages/quote_model.dart';
@@ -7,9 +8,11 @@ import 'package:englishcard/pages/control_page.dart';
 import 'package:englishcard/values/app_assets.dart';
 import 'package:englishcard/values/app_colors.dart';
 import 'package:englishcard/values/app_styles.dart';
+import 'package:englishcard/values/share_keys.dart';
 import 'package:englishcard/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,9 +49,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Lay danh sach cho vao Model
-  getEnglishToday() {
+  getEnglishToday() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int lenght = prefs.getInt(shareKeys.counter) ?? 5;
     List<String> newWords = [];
-    List<int> rans = fixedListRandom(len: 5, max: nouns.length);
+    List<int> rans = fixedListRandom(len: lenght, max: nouns.length);
     rans.forEach((element) {
       newWords.add(nouns[element]);
       /**
@@ -59,8 +64,9 @@ class _HomePageState extends State<HomePage> {
        * - Sau đó mới chuyển KDL sang words bằng hàm map
        */
     });
-
-    words = newWords.map((e) => getQuote(e)).toList();
+    setState(() {
+      words = newWords.map((e) => getQuote(e)).toList();
+    });
   }
 
   EnglishToday getQuote(String noun) {
@@ -132,7 +138,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              height: size.height * 2 / 3,
+              height: size.height * 3 / 5,
               // color: Colors.amber,
               child: PageView.builder(
                   controller: _pageController, //Lay pageview hien tai
@@ -208,10 +214,13 @@ class _HomePageState extends State<HomePage> {
                                     ])),
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
+                              child: AutoSizeText(
                                 '"$quote"',
                                 style: appStyles.h4.copyWith(
-                                    color: Colors.black38, letterSpacing: 1),
+                                  color: Colors.black38,
+                                  letterSpacing: 1,
+                                ),
+                                maxLines: 8,
                               ),
                             ),
                           ],
