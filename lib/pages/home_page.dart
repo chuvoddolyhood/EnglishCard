@@ -5,6 +5,7 @@ import 'package:englishcard/models/english_today.dart';
 import 'package:englishcard/packages/quote.dart';
 import 'package:englishcard/packages/quote_model.dart';
 import 'package:englishcard/pages/control_page.dart';
+import 'package:englishcard/pages/listWords._page.dart';
 import 'package:englishcard/values/app_assets.dart';
 import 'package:englishcard/values/app_colors.dart';
 import 'package:englishcard/values/app_styles.dart';
@@ -138,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              height: size.height * 3 / 5,
+              height: size.height * 13 / 20,
               // color: Colors.amber,
               child: PageView.builder(
                   controller: _pageController, //Lay pageview hien tai
@@ -231,17 +232,19 @@ class _HomePageState extends State<HomePage> {
             ),
 
             //indicator
-            Container(
-              height: size.height * 1 / 35,
-              padding: const EdgeInsets.only(top: 5, left: 16),
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5, //So luong indicator
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return buildIndicator(index == currentIndex, size);
-                  }),
-            )
+            currentIndex >= 5
+                ? buildShowMore()
+                : Container(
+                    height: size.height * 1 / 35,
+                    padding: const EdgeInsets.only(top: 5, left: 16),
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5, //So luong indicator
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return buildIndicator(index == currentIndex, size);
+                        }),
+                  )
           ],
         ),
       ),
@@ -273,7 +276,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildIndicator(bool isActive, Size size) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 200),
+      // curve: Curves.linear,
       height: 12,
       margin: const EdgeInsets.symmetric(horizontal: 16),
       width: isActive ? size.width * 1 / 5 : 24,
@@ -284,6 +289,36 @@ class _HomePageState extends State<HomePage> {
             BoxShadow(
                 color: Colors.black38, offset: Offset(3, 10), blurRadius: 3)
           ]),
+    );
+  }
+
+  Widget buildShowMore() {
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(24)),
+        color: appColors.primaryColor,
+        elevation: 4,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => listWords(words: this.words)));
+            },
+            splashColor: appColors.blackGrey,
+            borderRadius: BorderRadius.all(Radius.circular(24)),
+            child: Container(
+              child: Text(
+                'Show more',
+                style: appStyles.h6.copyWith(color: appColors.textColor),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
